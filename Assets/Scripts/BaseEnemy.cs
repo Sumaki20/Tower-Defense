@@ -6,25 +6,30 @@ public class BaseEnemy : MonoBehaviour
 {
     public float moveSpeed = 3f;
 
-    public Transform[] wayPoint;
+    public Transform[] wayPoints;
     private int currentWaypointIndex = 0;
     // Start is called before the first frame update
-    void Start()
+    public void SetupEnemy(Transform[] waypointInput)
     {
-        
+        wayPoints = waypointInput;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDirection = wayPoint[currentWaypointIndex + 1].position - transform.position;
+        if (currentWaypointIndex + 1 == wayPoints.Length)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Vector3 moveDirection = wayPoints[currentWaypointIndex + 1].position - transform.position;
 
         if(moveDirection.magnitude <= moveSpeed * Time.deltaTime)
         {
             currentWaypointIndex++;
-            transform.position = wayPoint[currentWaypointIndex].position;
+            transform.position = wayPoints[currentWaypointIndex].position;
         }
         transform.Translate(moveDirection.normalized * moveSpeed * Time.deltaTime,Space.World);
-        Debug.Log(moveDirection.magnitude);
+        
     }
 }
