@@ -13,7 +13,7 @@ public class BaseTurret : MonoBehaviour
     public float range = 10f;
 
     private float minDistance = float.MaxValue;
-    private float timer = 0.25f;
+    public float timer = 0.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +22,9 @@ public class BaseTurret : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
-        Debug.Log(minDistance);
+        //Debug.Log(minDistance);
         if (timer <= 0)
         {
             allEnemise = GameObject.FindGameObjectsWithTag("Enemy");
@@ -49,16 +49,17 @@ public class BaseTurret : MonoBehaviour
             }
             timer = 0.25f;
 
-            if (target != null)
-            {
-                Vector3 lookDirection = target.transform.position - transform.position;
-                lookDirection.y = 0f;
-                pathToRotate.rotation = Quaternion.LookRotation(lookDirection);
-            }
+            
         }
         else
         {
             timer -= Time.deltaTime;
+        }
+        if (target != null)
+        {
+            Vector3 lookDirection = target.transform.position - transform.position;
+            lookDirection.y = 0f;
+            pathToRotate.rotation = Quaternion.LookRotation(lookDirection);
         }
     }
 
